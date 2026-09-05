@@ -1,0 +1,8 @@
+(function (PKM) {
+  function card(node) {
+    const group = PKM.state.activeMap()?.groups.find((item) => item.id === node.groupId);
+    return `<article class="knowledge-node status-${PKM.helpers.statusSlug(node.status)}" data-node-id="${node.id}" role="option" tabindex="0" aria-selected="false" aria-label="${PKM.helpers.escapeHtml(node.title)}, ${PKM.helpers.escapeHtml(node.status)}" style="transform:translate3d(${node.x}px,${node.y}px,0)"><div class="knowledge-node__top"><span class="node-category">${PKM.helpers.escapeHtml(node.category || 'Uncategorized')}</span><button class="node-favorite ${node.favorite ? 'is-active' : ''}" type="button" data-node-favorite aria-label="${node.favorite ? 'Remove from' : 'Add to'} favorites">${PKM.helpers.icon('star')}</button></div><h3>${PKM.helpers.escapeHtml(node.title)}</h3>${node.description ? `<p>${PKM.helpers.escapeHtml(node.description)}</p>` : '<p class="muted">No description yet</p>'}<div class="knowledge-node__tags">${PKM.helpers.tagsHtml(node.tags, 2)}</div><div class="knowledge-node__footer">${PKM.helpers.statusBadge(node.status)}<span class="importance-dot importance-${node.importance.toLowerCase()}" title="${node.importance} importance"><span></span>${PKM.helpers.escapeHtml(node.importance)}</span></div>${group ? `<span class="node-group-pill" style="--group-accent:${group.accent}">${PKM.helpers.escapeHtml(group.name)}</span>` : ''}</article>`;
+  }
+  function render(layer, map) { const collapsed = new Set(map.groups.filter((group) => group.collapsed).map((group) => group.id)); layer.innerHTML = map.nodes.filter((node) => !collapsed.has(node.groupId)).map(card).join(''); }
+  PKM.nodeRenderer = { render, card };
+})(window.PKM = window.PKM || {});

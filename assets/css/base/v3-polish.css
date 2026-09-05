@@ -1,0 +1,41 @@
+/* Final QA overrides: responsive containment, readable controls, and visible keyboard focus. */
+.dropdown__menu button,.context-menu button{font-size:.875rem}
+.field>span,.check-field,.segmented button,.search-result strong{font-size:.875rem}
+.badge,.tag,.search-result__status,.command-palette__search kbd,.shortcut-list kbd,.node-category,.knowledge-node__tags .tag,.knowledge-node__footer .badge,.importance-dot,.node-group__copy small,.node-group>p,.node-group-pill,.topic-group-label,.connection__label text,.study-card dt,.study-card section>strong,.session-summary>div span,.map-progress-card__counts,.date-filter,[data-tooltip]::after{font-size:.75rem}
+.review-card__actions .button{font-size:.8rem}
+.icon-button:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.switch input:focus-visible+span{outline:3px solid var(--accent-ring);outline-offset:3px}
+.switch input:disabled+span{opacity:.55;cursor:not-allowed}
+.minimap__stage{overflow:hidden}
+.dashboard-stats{grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));overflow-x:visible}
+
+@media(max-width:820px){
+  .global-search{min-width:0}
+  .navbar__actions{min-width:0}
+}
+
+@media(max-width:760px){
+  .dashboard-stats{grid-template-columns:repeat(auto-fit,minmax(min(112px,100%),1fr))}
+}
+
+@media(max-width:540px){
+  .navbar{gap:6px;padding-inline:8px}
+  .global-search input{min-width:0;font-size:.84rem;text-overflow:ellipsis}
+  .dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:340px){
+  .navbar{gap:3px;padding-inline:5px}
+  .global-search input{padding-left:36px;font-size:.8rem}
+  .global-search__icon{left:10px}
+}
+
+/* Keep group chrome behind cards and reserve readable space around group content. */
+.groups-layer{z-index:1}
+.connections-layer{z-index:0;pointer-events:none}
+.connection{pointer-events:auto}
+.nodes-layer{z-index:2;pointer-events:none}
+.knowledge-node{pointer-events:auto}
+.node-group__header{z-index:1}
+.node-group>p{left:20px;right:20px;top:70px;max-width:440px;line-height:1.35;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.knowledge-node h3{line-height:1.3;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}

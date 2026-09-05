@@ -1,0 +1,10 @@
+.page-main{min-height:calc(100vh - var(--navbar-h));margin-top:var(--navbar-h);margin-left:var(--sidebar-w);transition:margin var(--duration) var(--ease)}
+.sidebar.is-collapsed + .page-main{margin-left:var(--sidebar-collapsed)}
+.knowledge-map-page .page-main{margin-right:var(--inspector-w);height:calc(100vh - var(--navbar-h));overflow:hidden}
+.content-page{padding:30px clamp(20px,3vw,48px) 56px;max-width:1540px;margin-inline:auto}
+.page-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px}
+.page-header__copy{display:grid;gap:7px;min-width:0}
+.page-header__copy p:last-child{color:var(--text-muted);max-width:680px;overflow-wrap:anywhere}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs)}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;border-bottom:1px solid var(--border)}
+.page-empty{display:grid;place-items:center;min-height:calc(100vh - var(--navbar-h));padding:24px}

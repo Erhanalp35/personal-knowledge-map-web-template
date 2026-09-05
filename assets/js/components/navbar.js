@@ -1,0 +1,16 @@
+(function (PKM) {
+  const titles = { dashboard: 'Dashboard', 'knowledge-map': 'Knowledge Map', 'all-topics': 'All Topics', favorites: 'Favorites', 'recently-updated': 'Recently Updated', 'recent-activity': 'Recent Activity', review: 'Review', settings: 'Settings' };
+  function render() {
+    const root = document.getElementById('app-navbar'); if (!root) return;
+    const view = PKM.router.currentView(); const map = PKM.state.activeMap(); const dark = PKM.theme.effective(PKM.state.get().settings.theme) === 'dark';
+    root.className = 'navbar';
+    root.innerHTML = `<button class="icon-button navbar__menu" type="button" data-mobile-menu aria-label="Open navigation" data-tooltip="Menu">${PKM.helpers.icon('menu')}</button><a class="navbar__brand" href="${PKM.router.href('dashboard')}" aria-label="Knowledge Atlas dashboard"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">Knowledge Atlas</span></a><div class="navbar__context"><span>${titles[view] || 'Knowledge Atlas'}</span>${view === 'knowledge-map' && map ? `<small>${PKM.helpers.escapeHtml(map.name)}</small>` : ''}</div><div class="global-search" role="search"><span class="global-search__icon">${PKM.helpers.icon('search')}</span><input type="search" data-global-search aria-label="Search every map" aria-expanded="false" aria-controls="global-search-results" autocomplete="off" placeholder="Search maps, nodes, groups…"><kbd>/</kbd><div class="search-results" id="global-search-results" role="listbox" aria-label="Search results" data-search-results hidden></div></div><div class="navbar__actions">${view === 'knowledge-map' ? `<button class="button button--primary navbar__add" type="button" data-add-node aria-label="Add Node">${PKM.helpers.icon('plus', 'Add Node')}</button>` : ''}<button class="icon-button navbar__utility" type="button" data-command-palette aria-label="Open command palette" data-tooltip="Commands (Ctrl K)">${PKM.helpers.icon('command')}</button><button class="icon-button navbar__utility" type="button" data-shortcuts aria-label="Show keyboard shortcuts" data-tooltip="Shortcuts">${PKM.helpers.icon('keyboard')}</button><button class="icon-button" type="button" data-theme-toggle aria-label="Switch to ${dark ? 'light' : 'dark'} mode" data-tooltip="${dark ? 'Light' : 'Dark'} mode">${PKM.helpers.icon(dark ? 'sun' : 'moon')}</button><a class="icon-button" href="${PKM.router.href('settings')}" aria-label="Open settings" data-tooltip="Settings">${PKM.helpers.icon('settings')}</a></div>`;
+    root.querySelector('[data-mobile-menu]')?.addEventListener('click', () => { PKM.sidebar.setMobile(!document.body.classList.contains('sidebar-open')); });
+    root.querySelector('[data-theme-toggle]')?.addEventListener('click', PKM.theme.toggle);
+    root.querySelector('[data-add-node]')?.addEventListener('click', () => PKM.nodeActions.openCreate());
+    root.querySelector('[data-command-palette]')?.addEventListener('click', () => PKM.commandPalette?.open());
+    root.querySelector('[data-shortcuts]')?.addEventListener('click', () => PKM.shortcutHelp?.open());
+    PKM.searchComponent.mount(root.querySelector('.global-search'));
+  }
+  PKM.navbar = { render };
+})(window.PKM = window.PKM || {});

@@ -1,0 +1,18 @@
+(function (PKM) {
+  const options = (values, selected) => values.map((value) => `<option value="${PKM.helpers.escapeHtml(value)}" ${value === selected ? 'selected' : ''}>${PKM.helpers.escapeHtml(value)}</option>`).join('');
+  function openCreate(mapId, sourceId) {
+    const map = PKM.state.mapById(mapId); const source = map?.nodes.find((node) => node.id === sourceId); if (!source) return;
+    const targets = map.nodes.filter((node) => node.id !== sourceId);
+    if (!targets.length) { PKM.toast.show('Add another topic before creating a connection.', 'warning'); return; }
+    const body = `<form class="form-stack" id="connection-form"><div class="connection-summary"><span class="node-dot"></span><strong>${PKM.helpers.escapeHtml(source.title)}</strong><span>will connect to</span></div><label class="field"><span>Target topic</span><select name="targetId" autofocus>${targets.map((node) => `<option value="${node.id}">${PKM.helpers.escapeHtml(node.title)}</option>`).join('')}</select></label><label class="field"><span>Relationship</span><select name="type">${options(PKM.constants.RELATIONSHIPS, 'Related To')}</select></label><label class="field"><span>Optional label</span><input name="label" maxlength="80" placeholder="e.g. required before"></label><p class="form-error" role="alert"></p></form>`;
+    PKM.modal.open({ eyebrow: map.name, title: 'Connect topics', body, confirmLabel: 'Create connection', onConfirm: (modal) => { const data = Object.fromEntries(new FormData(modal.querySelector('form'))); const result = PKM.connections.create(mapId, sourceId, data.targetId, data.type, data.label); if (!result.valid) { modal.querySelector('.form-error').textContent = result.message; return false; } PKM.toast.show('Connection created'); return true; } });
+  }
+  function openEdit(mapId, connectionId) {
+    const map = PKM.state.mapById(mapId); const connection = map?.connections.find((item) => item.id === connectionId); if (!connection) return;
+    const source = map.nodes.find((node) => node.id === connection.sourceId); const target = map.nodes.find((node) => node.id === connection.targetId);
+    const body = `<form class="form-stack" id="connection-edit-form"><div class="connection-summary"><strong>${PKM.helpers.escapeHtml(source?.title || 'Topic')}</strong><span>→</span><strong>${PKM.helpers.escapeHtml(target?.title || 'Topic')}</strong></div><label class="field"><span>Relationship</span><select name="type" autofocus>${options(PKM.constants.RELATIONSHIPS, connection.type)}</select></label><label class="field"><span>Optional label</span><input name="label" maxlength="80" value="${PKM.helpers.escapeHtml(connection.label || '')}"></label><p class="form-error" role="alert"></p></form>`;
+    PKM.modal.open({ eyebrow: 'Connection', title: 'Edit relationship', body, confirmLabel: 'Save relationship', onConfirm: (modal) => { const data = Object.fromEntries(new FormData(modal.querySelector('form'))); const result = PKM.connections.update(mapId, connectionId, data); if (!result.valid) { modal.querySelector('.form-error').textContent = result.message; return false; } PKM.toast.show('Connection updated'); return true; } });
+  }
+  function remove(mapId, connectionId) { PKM.modal.confirm({ title: 'Delete this connection?', message: 'The topics will remain in the map.', confirmLabel: 'Delete connection', danger: true, onConfirm: () => { PKM.connections.remove(mapId, connectionId); PKM.toast.show('Connection deleted'); document.dispatchEvent(new CustomEvent('pkm:nodedeselected')); return true; } }); }
+  PKM.connectionActions = { openCreate, openEdit, remove };
+})(window.PKM = window.PKM || {});

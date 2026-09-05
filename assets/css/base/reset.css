@@ -1,0 +1,1 @@
+*,*::before,*::after{box-sizing:border-box}html{font-size:100%;text-size-adjust:100%}body,h1,h2,h3,p,ul,ol{margin:0}ul,ol{padding:0;list-style:none}button,input,select,textarea{font:inherit;color:inherit}button{border:0}a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}body{min-height:100vh}input[type="search"]::-webkit-search-cancel-button{display:none}

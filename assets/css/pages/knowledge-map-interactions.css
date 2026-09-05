@@ -1,0 +1,4 @@
+.groups-layer{z-index:3}.node-group{z-index:auto;background:transparent}.node-group.is-collapsed{z-index:auto;background:color-mix(in srgb,var(--group-accent) 13%,var(--surface))}.node-group__header{z-index:4}.connections-layer{pointer-events:none}.connection{pointer-events:auto}.nodes-layer{pointer-events:none}.knowledge-node{pointer-events:auto}
+.knowledge-map-page .page-main{position:fixed;inset:var(--navbar-h) var(--inspector-w) 0 var(--sidebar-w);width:auto;height:auto;margin:0}.knowledge-map-page .sidebar.is-collapsed+.page-main{left:var(--sidebar-collapsed);margin-left:0}
+@media(max-width:1180px){.knowledge-map-page .page-main{right:0}}
+@media(max-width:820px){.knowledge-map-page .page-main,.knowledge-map-page .sidebar.is-collapsed+.page-main{left:0}}

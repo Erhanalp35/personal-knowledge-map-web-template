@@ -1,0 +1,6 @@
+.dropdown{position:relative}
+.dropdown__menu{position:fixed;z-index:130;right:auto;top:auto;left:0;display:none;width:150px;padding:5px;background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow-sm)}
+.dropdown.is-open .dropdown__menu{display:grid}
+.dropdown__menu button{display:flex;align-items:center;gap:9px;width:100%;min-height:40px;padding:8px 10px;border-radius:7px;background:transparent;text-align:left;font-size:.875rem;cursor:pointer}
+.dropdown__menu button:hover,.dropdown__menu button:focus-visible{background:var(--surface-alt)}
+.dropdown__menu .icon{width:16px;height:16px}

@@ -1,0 +1,11 @@
+(function (PKM) {
+  let initialized = false;
+  function render() {
+    const main = document.getElementById('page-content'); if (!main) return; const favorites = PKM.nodeFilters.sort(PKM.state.allNodes().filter((node) => node.favorite));
+    main.innerHTML = `<div class="content-page favorites-page"><header class="page-header"><div class="page-header__copy"><p class="eyebrow">Saved for focus</p><h1>Favorites</h1><p>Your highest-value topics, collected across every map.</p></div></header>${favorites.length ? `<section class="favorite-list section-card">${favorites.map((node) => `<article class="favorite-row"><button class="favorite-row__open" type="button" data-open-topic="${node.id}" data-map-id="${node.mapId}"><span class="favorite-row__star">${PKM.helpers.icon('star')}</span><span class="favorite-row__body"><span class="map-pill">${PKM.helpers.icon('map')} ${PKM.helpers.escapeHtml(node.mapName)}</span><strong>${PKM.helpers.escapeHtml(node.title)}</strong><small>${PKM.helpers.escapeHtml(node.category || 'Uncategorized')} · Updated ${PKM.helpers.formatRelative(node.updatedAt)}</small><span class="tag-list">${PKM.helpers.tagsHtml(node.tags)}</span></span><span>${PKM.helpers.statusBadge(node.status)}</span></button><button class="button button--ghost" type="button" data-remove-favorite="${node.id}" data-map-id="${node.mapId}">Remove</button></article>`).join('')}</section>` : `<section class="section-card">${PKM.emptyState.render({ icon: 'star', title: 'No favorites yet', message: 'Favorite a topic from the map or topic list to keep it close.' })}</section>`}</div>`;
+    main.querySelectorAll('[data-open-topic]').forEach((button) => button.addEventListener('click', () => PKM.router.openMap(button.dataset.mapId, button.dataset.openTopic)));
+    main.querySelectorAll('[data-remove-favorite]').forEach((button) => button.addEventListener('click', () => PKM.nodeActions.favorite(button.dataset.mapId, button.dataset.removeFavorite)));
+  }
+  function init() { if (initialized) return; initialized = true; render(); document.addEventListener('pkm:statechange', render); }
+  PKM.pages = PKM.pages || {}; PKM.pages.favorites = { init, render };
+})(window.PKM = window.PKM || {});
